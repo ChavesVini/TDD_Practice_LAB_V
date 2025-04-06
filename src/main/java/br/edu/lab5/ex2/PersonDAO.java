@@ -1,13 +1,16 @@
 package br.edu.lab5.ex2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PersonDAO {
+    private static final String emailIncorrect = "E-mail incorreto";
+
     public void save(Person person) {
         List<String> errors = isValidToInclude(person);
         if (errors.isEmpty()) {
-            System.out.println(person.getNamePerson());
+            System.out.println("Pessoa salva com sucesso!");
         } else {
             for (String error : errors) {
                 System.out.println(error);
@@ -29,23 +32,19 @@ public class PersonDAO {
         } else if (!(person.getNameEmail().isEmpty())) {
             for (Email emails : person.getNameEmail()) {
                 String[] partesEmails = emails.getNameEmail().split("@");
-                String[] dominioLadoEsquerdo = partesEmails[0].split("\\.");
-                if (partesEmails.length != 2) {
-                    isValidToIncludeList.add("E-mail incorreto");
-                } else if (partesEmails[0].isBlank() || 
-                           partesEmails[0].isEmpty() 
-                          ) {
-                    isValidToIncludeList.add("E-mail incorreto");
-                } else if (!partesEmails[1].contains(".") || (dominio.length != 2)) {
-                    isValidToIncludeList.add("E-mail incorreto");
-                } else if (partesEmails[0].isEmpty() ||
-                           partesEmails[0].isBlank() ||
-                           dominio[0].isEmpty() ||   
-                           dominio[0].isBlank() || 
-                           dominio[1].isEmpty() ||  
-                           dominio[1].isBlank()  
-                          ) {
-                    isValidToIncludeList.add("E-mail incorreto");
+                String[] dominio = partesEmails[1].split("\\.");
+                if (!partesEmails[1].contains(".") ||
+                    partesEmails.length != 2 || 
+                    partesEmails[0].isEmpty() ||
+                    partesEmails[0].isBlank() ||
+                    dominio.length < 1 ||
+                    dominio[1].isBlank() ||                 
+                    partesEmails[0].isEmpty() ||   
+                    partesEmails[0].isBlank() || 
+                    partesEmails[1].isEmpty() ||  
+                    partesEmails[1].isBlank()  
+                    ) {
+                    isValidToIncludeList.add(emailIncorrect);
                 }
             }
         }
